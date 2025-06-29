@@ -70,21 +70,25 @@ Input (16-bit) → Round 1 → Round 2 → Round 3 → Round 4 → Output (16-bi
 ## 📁 File Structure
 
 ```
-rtl/
-├── spn_top.sv           # Top-level module
-├── spn_controller.sv    # Control logic
-├── sbox_module.sv       # Substitution box
-├── pbox_module.sv       # Permutation box
-├── key_expansion.sv     # Key schedule
-└── round_logic.sv       # Round operations
+RTL/
+├── design.sv            # Main SPN design implementation
+└── spn_package.sv       # Package definitions and parameters
 tb/
-├── spn_pkg.sv          # Package definitions
-├── spn_if.sv           # Interface
-├── spn_env.sv          # UVM environment
-├── spn_sequence.sv     # Test sequences
-└── spn_test.sv         # Test cases
+├── spn_agent.sv         # UVM agent
+├── spn_driver.sv        # UVM driver
+├── spn_enc_dec_test.sv  # Encryption/Decryption test
+├── spn_env.sv           # UVM environment
+├── spn_if.sv            # Interface definitions
+├── spn_monitor.sv       # UVM monitor
+├── spn_scoreborad.sv    # UVM scoreboard
+├── spn_seq.sv           # Test sequences
+├── spn_seq_item.sv      # Sequence item
+├── spn_sequencer.sv     # UVM sequencer
+├── spn_test.sv          # Base test class
+└── testbench.sv         # Top-level testbench
 document/
-└── DV-Project-Report.pdf # Detailed project documentation
+├── DV-Project-Report.pdf                    # Detailed project documentation
+└── ENCS5337+Course+Project++Spring+24+25.pdf # Course project requirements
 ```
 
 ## 💻 Design Implementation
@@ -133,30 +137,46 @@ P-box: [0, 4, 8, 12, 1, 5, 9, 13, 2, 6, 10, 14, 3, 7, 11, 15]
    - Encapsulates transaction data
    - Includes constraints for valid operations
 
-3. **Driver (`spn_driver.sv`)**
+3. **Sequences (`spn_seq.sv`)**
+   - Defines test stimulus patterns
+   - Contains various sequence types for different test scenarios
+
+4. **Sequencer (`spn_sequencer.sv`)**
+   - Manages sequence execution
+   - Controls stimulus generation flow
+
+5. **Driver (`spn_driver.sv`)**
    - Drives stimuli to DUT
    - Handles protocol timing
 
-4. **Monitor (`spn_monitor.sv`)**
+6. **Monitor (`spn_monitor.sv`)**
    - Observes DUT signals
    - Collects coverage data
 
-5. **Scoreboard (`spn_scoreboard.sv`)**
+7. **Scoreboard (`spn_scoreborad.sv`)**
    - Reference model implementation
    - Automatic checking of results
    - Pass/fail reporting
 
-6. **Agent (`spn_agent.sv`)**
+8. **Agent (`spn_agent.sv`)**
    - Contains driver, monitor, sequencer
    - Configurable for active/passive modes
 
-7. **Environment (`spn_env.sv`)**
+9. **Environment (`spn_env.sv`)**
    - Top-level verification environment
    - Instantiates and connects all components
 
-8. **Tests (`spn_enc_dec_test.sv`)**
-   - Specific test scenarios
-   - Random and directed testing
+10. **Base Test (`spn_test.sv`)**
+    - Base test class with common functionality
+    - Provides foundation for specific test cases
+
+11. **Encryption/Decryption Test (`spn_enc_dec_test.sv`)**
+    - Specific test scenarios for encryption and decryption
+    - Random and directed testing
+
+12. **Top-level Testbench (`testbench.sv`)**
+    - Module-based testbench wrapper
+    - Instantiates DUT and UVM test environment
 
 ## 🚀 Getting Started
 
@@ -178,14 +198,6 @@ P-box: [0, 4, 8, 12, 1, 5, 9, 13, 2, 6, 10, 14, 3, 7, 11, 15]
 3. Compile all SystemVerilog files
 4. Run the testbench
 
-### Running Simulations
-```bash
-# Compile the design and testbench
-vlog +incdir+. *.sv
-
-# Run the test
-vsim -c tb_top -do "run -all; quit -f"
-```
 
 ## 📊 Usage
 
@@ -238,11 +250,6 @@ key = 32'hABCDEF01;       // Same key used for encryption
    - Multiple random encrypt/decrypt operations
    - Coverage-driven verification
 
-### Coverage Metrics
-- **Functional Coverage**: Operation types, key patterns, data patterns
-- **Code Coverage**: Line, branch, and expression coverage
-- **Assertion Coverage**: Protocol and functional assertions
-
 ## 📈 Results
 
 ### Verification Results
@@ -286,7 +293,7 @@ This project is developed for educational purposes. Please refer to your institu
 
 ## 🏆 Acknowledgments
 
-- Developed as part of Digital Verification course
+- Developed as part of the Design Verification course
 - Implements concepts from modern cryptography
 - Uses industry-standard UVM methodology
 - Thanks to the SystemVerilog and UVM communities
