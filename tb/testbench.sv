@@ -1,16 +1,16 @@
 // Code your testbench here
 // or browse Examples
-`include "spn_if.sv"
-`include "spn_seq_item.sv"
-`include "spn_sequencer.sv"
-`include "spn_driver.sv"
-`include "spn_monitor.sv"
-`include "spn_scoreborad.sv"
-`include "spn_agent.sv"
-`include "spn_env.sv"
-`include "spn_seq.sv"
-`include "spn_test.sv"
-`include "spn_enc_dec_test.sv"
+`include "tb/spn_if.sv"
+`include "tb/spn_seq_item.sv"
+`include "tb/spn_sequencer.sv"
+`include "tb/spn_driver.sv"
+`include "rb/spn_monitor.sv"
+`include "tb/spn_scoreboard.sv"
+`include "tb/spn_agent.sv"
+`include "tb/spn_env.sv"
+`include "tb/spn_seq.sv"
+`include "tb/spn_test.sv"
+`include "tb/spn_enc_dec_test.sv"
 
 module tb_top;
 
